@@ -94,15 +94,15 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 TCL_BIN_DIR = @TCL_BIN_DIR@
-TCL_BUILD_LIB_SPEC = @TCL_BUILD_LIB_SPEC@
+TCL_BUILD_LIB_SPEC = @TCL_BUILD_STUB_LIB_SPEC@
 TCL_BUILD_STUB_LIB_SPEC = @TCL_BUILD_STUB_LIB_SPEC@
-TCL_DEFS = @TCL_DEFS@
+TCL_DEFS = -DUSE_TCL_STUBS=1 @TCL_DEFS@
 TCL_EXEC_PREFIX = @TCL_EXEC_PREFIX@
 TCL_EXTRA_CFLAGS = @TCL_EXTRA_CFLAGS@
 TCL_LD_FLAGS = @TCL_LD_FLAGS@
 TCL_LIBS = @TCL_LIBS@
-TCL_LIB_FILE = @TCL_LIB_FILE@
-TCL_LIB_SPEC = @TCL_LIB_SPEC@
+TCL_LIB_FILE = @TCL_STUB_LIB_FILE@
+TCL_LIB_SPEC = @TCL_STUB_LIB_SPEC@
 TCL_SHLIB_LD_LIBS = @TCL_SHLIB_LD_LIBS@
 TCL_SRC_DIR = @TCL_SRC_DIR@
 TCL_STUB_LIB_FILE = @TCL_STUB_LIB_FILE@
@@ -153,14 +153,13 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-db2tclsh_LDFLAGS = @LDFLAGS@ @TCL_LIB_SPEC@
-db2wish_LDFLAGS = @LDFLAGS@ @TCL_LIB_SPEC@ @TK_LIB_SPEC@
 
 AM_CFLAGS = -I@TCL_EXEC_PREFIX@/include -I@TK_EXEC_PREFIX@/include
 
-bin_PROGRAMS = db2tclsh db2wish
-db2tclsh_SOURCES = db2tclsh.c db2tclcmds.c db2tcl.c
-db2wish_SOURCES = db2wish.c db2tclcmds.c db2tcl.c
+#bin_PROGRAMS = db2tclsh db2wish
+bin_PROGRAMS = 
+#db2tclsh_SOURCES = db2tclsh.c db2tclcmds.c db2tcl.c
+#db2wish_SOURCES = db2wish.c db2tclcmds.c db2tcl.c
 #EXTRA_DIST = db2tclcmds.h db2tcl.h
 noinst_HEADERS = db2tclcmds.h db2tcl.h
 
@@ -179,7 +178,8 @@ LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
 libdb2tcl_la_LIBADD =
 am_libdb2tcl_la_OBJECTS = db2tclcmds.lo db2tcl.lo
 libdb2tcl_la_OBJECTS = $(am_libdb2tcl_la_OBJECTS)
-bin_PROGRAMS = db2tclsh$(EXEEXT) db2wish$(EXEEXT)
+#bin_PROGRAMS = db2tclsh$(EXEEXT) db2wish$(EXEEXT)
+bin_PROGRAMS = 
 PROGRAMS = $(bin_PROGRAMS)
 
 am_db2tclsh_OBJECTS = db2tclsh.$(OBJEXT) db2tclcmds.$(OBJEXT) \
@@ -441,7 +441,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 install-binPROGRAMS: install-libLTLIBRARIES
 
 

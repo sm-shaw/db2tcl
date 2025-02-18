@@ -10,7 +10,6 @@ ROOT    = .
 TMPDIR  = .
 TCL_INCLUDE = "$(TCLDIR)\include"
 TK_INCLUDE = "$(TKDIR)\include"
-TK_LIBRARY = "$(TKDIR)\lib"
 MACHINE  = x64
 
 # comment the following line to compile with symbols
@@ -31,7 +30,7 @@ dlllflags = $(lflags) -entry:_DllMainCRTStartup -dll
 
 CLFLAGS = /c -Ob2 -favor:blend /MT /W3 /nologo /D_CRT_SECURE_NO_WARNINGS -DUSE_TCL_STUBS -DPACKAGE_NAME=\"db2tcl\" -DPACKAGE_VERSION=\"2.0.1.1\"
 
-baselibs   =  "$(TCL_LIBRARY)/tcl90.lib" "$(TCL_LIBRARY)/tclstub.lib" "$(TK_LIBRARY)/tcl9tk90.lib" "$(TK_LIBRARY)/tkstub.lib" "$(LIBDIR)/db2cli.lib" "$(LIBDIR)/db2api.lib"
+baselibs   = "$(TCL_LIBRARY)/tclstub.lib" "$(LIBDIR)/db2cli.lib" "$(LIBDIR)/db2api.lib"
 
 DIR_SRC = ..\src
 

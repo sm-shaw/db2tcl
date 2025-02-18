@@ -54,6 +54,9 @@ typedef struct Db2Connection
 
 } Db2Connection;
 
+extern int Db2CloseConnection (ClientData cData, Tcl_Interp * interp);
+extern int Db2CloseConnection2(ClientData cData, Tcl_Interp *interp, int flags);
+
 /* Registered Tcl functions */
 
 extern int Db2_connect(

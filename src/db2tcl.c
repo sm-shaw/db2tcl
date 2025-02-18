@@ -15,19 +15,14 @@ __declspec( dllexport )
 int Db2tcl_Init(interp)
 Tcl_Interp * interp;
 {
-  if (Tcl_InitStubs(interp, "8.6-", 0) == NULL)
+  if (Tcl_InitStubs(interp, "9.0-", 0) == NULL)
     return TCL_ERROR;
-  if (Tcl_PkgRequire(interp, "Tcl", "8.6-", 0) == NULL)
+  if (Tcl_PkgRequire(interp, "Tcl", "9.0-", 0) == NULL)
     return TCL_ERROR;
   if (Tcl_PkgProvide(interp, PACKAGE, PACKAGE_VERSION) != TCL_OK)
     return TCL_ERROR;
 
-    /* On Windows initialize default channels to prevent incorrect naming of channels */
-#ifdef _WINDOWS
-  Tk_InitConsoleChannels(interp);
-#endif
     /* register all Db2tcl commands */
-
     Tcl_CreateCommand (interp, "db2_connect", Db2_connect,
 		       (ClientData) NULL, (Tcl_CmdDeleteProc *) NULL);
 

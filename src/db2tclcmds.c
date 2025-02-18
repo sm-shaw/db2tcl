@@ -16,6 +16,16 @@ typedef int Tcl_Size;
 static SQLHANDLE henv = SQL_NULL_HANDLE;
 static int num_connect = 0;
 
+int Db2CloseConnection2(ClientData cData, Tcl_Interp *interp, int flags)
+{
+         Db2Connection *conn;
+         conn = (Db2Connection *) cData;
+        if ((flags&(TCL_CLOSE_READ|TCL_CLOSE_WRITE))==0) {
+        return Db2CloseConnection(conn, interp);
+    }
+    return 22;
+}
+
 int Db2CloseConnection (ClientData cData, Tcl_Interp * interp)
 {
     Db2Connection *conn;
@@ -77,18 +87,33 @@ int Db2WatchProc (ClientData cData,  Tcl_Interp * interp)
     return 0;
 }
 
+int Db2GetHandleProc(ClientData cData, int direction, ClientData *handlePtr)
+{
+   return TCL_ERROR;
+}
+
+
 Tcl_ChannelType Db2_ConnType = {
-    "db2sql",			/* channel type */
-    NULL,
-    Db2CloseConnection,		/* closeproc */
-    Db2InputProc,		/* inputproc */
-    Db2OutputProc,		/* outputproc */
-    NULL,
-    NULL,
-    NULL,
-    Db2WatchProc,		/* watchproc */
-    NULL,
-    NULL
+        "db2sql",                                        /* channel type */
+        (Tcl_ChannelTypeVersion)TCL_CHANNEL_VERSION_5,      /* Version. */
+        #if TCL_MAJOR_VERSION < 9
+        Db2CloseConnection,		/* closeproc */
+        #else
+        TCL_CLOSE2PROC,
+        #endif
+        Db2InputProc,		/* inputproc */
+        Db2OutputProc,		/* outputproc */
+        NULL,                                           /* SeekProc, Not used */
+        NULL,                                           /* SetOptionProc, Not used */
+        NULL,                                           /* GetOptionProc, Not used */
+        Db2WatchProc,		/* watchproc */
+        Db2GetHandleProc,                        /* GetHandleProc, must be defined */
+        Db2CloseConnection2,                     /* Close2Proc */
+        NULL,  /* Set blocking/nonblocking mode.*/
+        NULL, /* FlushProc. Must be NULL as per Tcl docs */
+        NULL, /* HandlerProc. Only valid for stacked channels */
+        NULL, /* WideSeekProc. */
+        NULL,
 };
 
 /*
